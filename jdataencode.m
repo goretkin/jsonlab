@@ -133,7 +133,13 @@ newitem=cellfun(@(x) obj2jd(x, varargin{:}), item, 'UniformOutput',false);
 function newitem=struct2jd(item,varargin)
 
 num=numel(item);
-if(num>1)  % struct array
+if(num==0)
+    newitem_proto = struct();
+    newitem_proto.SentinelFieldTODO = 'struct';
+    newitem_proto.fieldnames = fieldnames(item);
+    newitem_proto.size = size(item);
+    newitem = newitem_proto;
+elseif(num>1)  % struct array
     newitem=obj2jd(num2cell(item),varargin{:});
     try
        newitem=cell2mat(newitem);
